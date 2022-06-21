@@ -18,6 +18,43 @@ header {
 .main {
     flex-grow: 1;
     display: flex;
+    justify-content: center;
+}
+.container {
+    width: 960px;
+    border: 1px solid red;
+    display: flex;
+}
+.toolbar {
+    width: 60px;
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+}
+.toolbar button {
+    display: flex;
+    height: 50px;
+    border: 1px solid green;
+    flex-grow: 0;
+    justify-content: center;
+    align-items: center;
+}
+.toolbar button:hover {
+    cursor: pointer;
+}
+.sketchpad {
+    display: flex;
+    flex-direction: column;
+    width: 900px;
+    border: 1px solid red;
+}
+.row {
+    display: flex;
+    flex-grow: 1;
+}
+.column {
+    display: flex;
+    flex-grow: 1;
 }
 footer {
     display: flex;
@@ -25,4 +62,8 @@ footer {
     align-items: center;
     height: 50px;
     background-color: antiquewhite;
+}
+
+#github {
+    padding: 0px 10px;
 }
