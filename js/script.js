@@ -19,7 +19,6 @@ for (let i = 0; i < 100; i++) {
 }
 
 // Toolbar functions
-let pointer = false;
 let pencil = false;
 let pen = false;
 let feather = false;
@@ -28,7 +27,7 @@ let eraser = false;
 function removeDrawType() {
     if (pencil) {
         for (let cell of cells) {
-            cell.removeEventListener('click', drawlogic);
+            cell.removeEventListener('click', drawLogic);
         }
         pencil = false;
     }
