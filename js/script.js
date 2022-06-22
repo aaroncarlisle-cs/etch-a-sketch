@@ -24,6 +24,7 @@ function buildGrid(size) {
             col.classList.add('column');
             col.setAttribute('draggable', 'false');
             col.style.border = '1px solid grey';
+            col.style.backgroundColor = gridColor;
             cells.push(col);
             row.appendChild(col);
         }
@@ -175,21 +176,52 @@ modal.addEventListener('click', function (evt) {
     }
 });
 
+// Modal confirm buttons
+const resizeConfirm = document.getElementById('resize-confirm');
+const paletteConfirm = document.getElementById('palette-confirm');
+const clearConfirm = document.getElementById('clear-confirm');
+
 // Modal functions
 function resizeGrid() {
     modal.style.display = 'block';
     resizeModal.style.display = 'block'
+    let userGridColor = document.getElementById('grid-color');
+    let userGridSize = document.getElementById('grid-size');
+    let gridFeedback = document.getElementById('grid-size-feedback');
+    let gridValue = userGridSize.value;
+    gridFeedback.textContent = `${gridValue} x ${gridValue}`;
+    userGridSize.addEventListener('change', function () {
+        gridValue = userGridSize.value;
+        gridFeedback.textContent = `${gridValue} x ${gridValue}`;
+    })
+    resizeConfirm.addEventListener('click', function () {
+        gridColor = userGridColor.value;
+        newGrid(gridValue);
+        resizeModal.style.display = 'none';
+        modal.style.display = 'none';
+    })
 }
 
 function setColor() {
     modal.style.display = 'block';
     paletteModal.style.display = 'block'
+    let userDrawColor = document.getElementById('draw-color');
+    userDrawColor.addEventListener('change', function () {
+        drawColor = userDrawColor.value
+        paletteModal.style.display = 'none';
+        modal.style.display = 'none';
+    });
 }
 function clearGrid() {
     modal.style.display = 'block';
-    resizeModal.style.display = 'block'
-    // for (let cell of cells) {
-    //     if (eraser) cell.style.backgroundColor = drawColor;
-    //     else cell.style.backgroundColor = gridColor;
-    // }
+    clearModal.style.display = 'block'
+    clearConfirm.addEventListener('click', function () {
+        for (let cell of cells) {
+            if (eraser) cell.style.backgroundColor = drawColor;
+            else cell.style.backgroundColor = gridColor;
+        }
+        clearModal.style.display = 'none';
+        modal.style.display = 'none';
+        setPencil();
+    })
 }
