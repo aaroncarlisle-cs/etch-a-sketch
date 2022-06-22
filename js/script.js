@@ -1,22 +1,29 @@
+// Global selectors
 const sketchpad = document.querySelector('.sketchpad');
 const toolbar = document.querySelector('.toolbar');
+
+function initialize(size) {
+    let cells = [];
+    for (let i = 0; i < size; i++) {
+        let row = document.createElement('div');
+        row.classList.add('row');
+        sketchpad.appendChild(row);
+        for (let i = 0; i < size; i++) {
+            let col = document.createElement('div');
+            col.classList.add('column');
+            col.style.border = '1px solid black';
+            cells.push(col);
+            row.appendChild(col);
+        }
+    }
+    return cells;
+}
 
 // Default behavior of the Etch-a-Sketch
 let drawColor = 'black';
 let sketchBackgroundColor = 'white';
-let cells = [];
-for (let i = 0; i < 100; i++) {
-    let row = document.createElement('div');
-    row.classList.add('row');
-    sketchpad.appendChild(row);
-    for (let i = 0; i < 100; i++) {
-        let col = document.createElement('div');
-        col.classList.add('column');
-        col.style.border = '1px solid black';
-        cells.push(col);
-        row.appendChild(col);
-    }
-}
+let cells = initialize(16);
+console.log(cells);
 
 // Toolbar functions
 let pencil = false;
