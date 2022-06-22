@@ -1,11 +1,8 @@
 // Default behavior of the Etch-a-Sketch on start
 const cells = [];
 const sketchpad = document.querySelector('.sketchpad');
-let mousedown = false;
 let drawColor = 'black';
 let gridColor = 'white';
-document.body.addEventListener('mousedown', () => mousedown = true);
-document.body.addEventListener('mouseup', () => mousedown = false);
 
 newGrid(16);
 
@@ -40,6 +37,9 @@ function gridEvents() {
     }
 }
 
+let mousedown = false;
+document.body.addEventListener('mousedown', () => mousedown = true);
+document.body.addEventListener('mouseup', () => mousedown = false);
 function drawLogic(evt, cell) {
     if (pencil || eraser) {
         if (mousedown) getColor(cell);  
@@ -150,10 +150,6 @@ function resetInputs() {
     penBtn.classList.remove('selected');
     eraserBtn.classList.remove('selected');
 }
-
-function resizeGrid() {
-    newGrid(prompt('Input grid size'));
-}
 function setFeather() {
     if (feather) {
         feather = false;
@@ -164,12 +160,36 @@ function setFeather() {
         featherBtn.classList.add('selected');
     }
 }
-function setColor() {
 
+// Modal globals
+const modal = document.querySelector('.modal');
+const resizeModal = document.querySelector('.resize-modal');
+const paletteModal = document.querySelector('.palette-modal');
+const clearModal = document.querySelector('.clear-modal');
+modal.addEventListener('click', function (evt) {
+    if (evt.target == this){
+        modal.style.display = 'none';
+        resizeModal.style.display = 'none';
+        paletteModal.style.display = 'none';
+        clearModal.style.display = 'none';
+    }
+});
+
+// Modal functions
+function resizeGrid() {
+    modal.style.display = 'block';
+    resizeModal.style.display = 'block'
+}
+
+function setColor() {
+    modal.style.display = 'block';
+    paletteModal.style.display = 'block'
 }
 function clearGrid() {
-    for (let cell of cells) {
-        if (eraser) cell.style.backgroundColor = drawColor;
-        else cell.style.backgroundColor = gridColor;
-    }
+    modal.style.display = 'block';
+    resizeModal.style.display = 'block'
+    // for (let cell of cells) {
+    //     if (eraser) cell.style.backgroundColor = drawColor;
+    //     else cell.style.backgroundColor = gridColor;
+    // }
 }
