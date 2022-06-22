@@ -1,15 +1,19 @@
 // Default behavior of the Etch-a-Sketch on start
+const sketchpad = document.querySelector('.sketchpad');
+document.body.addEventListener('mousedown', () => click = true);
+document.body.addEventListener('mouseup', () => click = false);
 const cells = [];
 let drawColor = 'black';
 let gridColor = 'white';
-newGrid(16);
+let click = false;
 
+newGrid(16);
 
 function newGrid(size) {
     cells.length = 0;
-    const sketchpad = document.querySelector('.sketchpad');
     sketchpad.innerHTML = "";
     buildGrid(size);
+    attachEvents(cells);
 }
 // Can time complexity be reduced with CSS grid?
 function buildGrid(size) {
@@ -27,6 +31,20 @@ function buildGrid(size) {
     }
 }
 
+function attachEvents(cells) {
+    for (let cell of cells) {
+        cell.addEventListener('mouseover', function () {
+            drawLogic(cell);
+        });
+    }
+}
+
+function drawLogic(cell) {
+    if (pencil || eraser) {
+        if (click) cell.style.backgroundColor = drawColor;
+    }
+    else if (pen) cell.style.backgroundColor = drawColor;
+}
 // Toolbar booleans
 let pencil = false;
 let pen = false;
@@ -59,6 +77,7 @@ function setPencil() {
         if (eraser) colorSwap();
         resetInputs();
         pencilBtn.classList.toggle('selected');
+        pencil = true;
     }
 }
 function setPen() {
