@@ -1,11 +1,11 @@
 // Default behavior of the Etch-a-Sketch on start
-const sketchpad = document.querySelector('.sketchpad');
-document.body.addEventListener('mousedown', () => click = true);
-document.body.addEventListener('mouseup', () => click = false);
 const cells = [];
+const sketchpad = document.querySelector('.sketchpad');
+let mousedown = false;
 let drawColor = 'black';
 let gridColor = 'white';
-let click = false;
+document.body.addEventListener('mousedown', () => mousedown = true);
+document.body.addEventListener('mouseup', () => mousedown = false);
 
 newGrid(16);
 
@@ -13,17 +13,19 @@ function newGrid(size) {
     cells.length = 0;
     sketchpad.innerHTML = "";
     buildGrid(size);
-    attachEvents(cells);
+    gridEvents();
 }
 // Can time complexity be reduced with CSS grid?
 function buildGrid(size) {
     for (let i = 0; i < size; i++) {
         let row = document.createElement('div');
         row.classList.add('row');
+        row.setAttribute('draggable', 'false');
         sketchpad.appendChild(row);
         for (let i = 0; i < size; i++) {
             let col = document.createElement('div');
             col.classList.add('column');
+            col.setAttribute('draggable', 'false');
             col.style.border = '1px solid black';
             cells.push(col);
             row.appendChild(col);
@@ -31,20 +33,21 @@ function buildGrid(size) {
     }
 }
 
-function attachEvents(cells) {
+function gridEvents() {
     for (let cell of cells) {
-        cell.addEventListener('mouseover', function () {
-            drawLogic(cell);
-        });
+        cell.addEventListener('mouseover', (evt) => drawLogic(evt, cell));
+        cell.addEventListener('mousedown', (evt) => drawLogic(evt, cell));
     }
 }
 
-function drawLogic(cell) {
+function drawLogic(evt, cell) {
     if (pencil || eraser) {
-        if (click) cell.style.backgroundColor = drawColor;
+        if (mousedown) cell.style.backgroundColor = drawColor;
+        if (evt.type == 'mousedown') cell.style.backgroundColor = drawColor;
     }
     else if (pen) cell.style.backgroundColor = drawColor;
 }
+
 // Toolbar booleans
 let pencil = false;
 let pen = false;
