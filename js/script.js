@@ -185,7 +185,7 @@ const clearConfirm = document.getElementById('clear-confirm');
 // Modal functions
 function resizeGrid() {
     modal.style.display = 'block';
-    resizeModal.style.display = 'block'
+    resizeModal.style.display = 'flex'
     let userGridSize = document.getElementById('grid-size');
     let gridFeedback = document.getElementById('grid-size-feedback');
     let gridValue = userGridSize.value;
@@ -204,7 +204,7 @@ function resizeGrid() {
 
 function setColor() {
     modal.style.display = 'block';
-    paletteModal.style.display = 'block'
+    paletteModal.style.display = 'flex'
     let userDrawColor = document.getElementById('draw-color');
     userDrawColor.addEventListener('change', function () {
         drawColor = userDrawColor.value
@@ -214,7 +214,7 @@ function setColor() {
 }
 function clearGrid() {
     modal.style.display = 'block';
-    clearModal.style.display = 'block'
+    clearModal.style.display = 'flex'
     clearConfirm.addEventListener('click', function () {
         for (let cell of cells) {
             if (eraser) cell.style.backgroundColor = drawColor;
