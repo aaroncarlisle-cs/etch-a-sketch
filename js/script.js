@@ -1,10 +1,10 @@
+
 // Default behavior of the Etch-a-Sketch on start
 const cells = [];
 const sketchpad = document.querySelector('.sketchpad');
 let drawColor = 'black';
-let gridColor = 'white';
+let gridColor = '#EDEDED';
 
-newGrid(16);
 
 function newGrid(size) {
     cells.length = 0;
@@ -23,8 +23,8 @@ function buildGrid(size) {
             let col = document.createElement('div');
             col.classList.add('column');
             col.setAttribute('draggable', 'false');
-            col.style.border = '1px solid grey';
             col.style.backgroundColor = gridColor;
+            col.style.border = '1px solid #D5E4ED';
             cells.push(col);
             row.appendChild(col);
         }
@@ -132,6 +132,7 @@ function setPen() {
 }
 function setEraser() {
     if (!eraser) {
+        if (feather) setFeather();
         colorSwap();
         resetInputs();
         eraserBtn.classList.toggle('selected');
@@ -185,7 +186,6 @@ const clearConfirm = document.getElementById('clear-confirm');
 function resizeGrid() {
     modal.style.display = 'block';
     resizeModal.style.display = 'block'
-    let userGridColor = document.getElementById('grid-color');
     let userGridSize = document.getElementById('grid-size');
     let gridFeedback = document.getElementById('grid-size-feedback');
     let gridValue = userGridSize.value;
@@ -195,7 +195,7 @@ function resizeGrid() {
         gridFeedback.textContent = `${gridValue} x ${gridValue}`;
     })
     resizeConfirm.addEventListener('click', function () {
-        gridColor = userGridColor.value;
+        if(eraser || pen) setPencil();
         newGrid(gridValue);
         resizeModal.style.display = 'none';
         modal.style.display = 'none';
@@ -224,4 +224,9 @@ function clearGrid() {
         modal.style.display = 'none';
         setPencil();
     })
+}
+
+window.onload = function () {
+    newGrid(50);
+    setPencil();
 }
