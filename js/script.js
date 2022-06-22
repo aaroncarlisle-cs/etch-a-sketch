@@ -57,10 +57,15 @@ function getColor(cell) {
         let fifth = 'rgb(51, 51, 51)';
         let sixth = 'rgb(26, 26, 26)';
         let seventh = 'rgb(0, 0, 0)';
-        console.log(cell.style.backgroundColor);
         let color = cell.style.backgroundColor;
         switch (color) {
+            case seventh:
+                break;
+            case sixth:
+                cell.style.backgroundColor = seventh;
+                break;
             case fifth: 
+                cell.style.backgroundColor = sixth;
                 break;
             case fourth: 
                 cell.style.backgroundColor = fifth;
@@ -77,13 +82,6 @@ function getColor(cell) {
             default:
                 cell.style.backgroundColor = first;
         }
-        // if (color == fifth) {
-        //     return;
-        // }
-        // else if (color == fourth) {
-        //     cell.style.backgroundColor = fifth;
-        // }
-        // else cell.style.backgroundColor = fourth;
     }
     else cell.style.backgroundColor = drawColor;
 }
@@ -157,8 +155,14 @@ function resizeGrid() {
     newGrid(prompt('Input grid size'));
 }
 function setFeather() {
-    if (feather) feather = false;
-    else feather = true;
+    if (feather) {
+        feather = false;
+        featherBtn.classList.remove('selected');
+    }
+    else {
+        feather = true;
+        featherBtn.classList.add('selected');
+    }
 }
 function setColor() {
 
