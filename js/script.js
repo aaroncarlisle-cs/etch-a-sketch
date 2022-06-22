@@ -26,7 +26,7 @@ function buildGrid(size) {
             let col = document.createElement('div');
             col.classList.add('column');
             col.setAttribute('draggable', 'false');
-            col.style.border = '1px solid black';
+            col.style.border = '1px solid grey';
             cells.push(col);
             row.appendChild(col);
         }
@@ -42,10 +42,50 @@ function gridEvents() {
 
 function drawLogic(evt, cell) {
     if (pencil || eraser) {
-        if (mousedown) cell.style.backgroundColor = drawColor;
-        if (evt.type == 'mousedown') cell.style.backgroundColor = drawColor;
+        if (mousedown) getColor(cell);  
+        if (evt.type == 'mousedown') getColor(cell);
     }
-    else if (pen) cell.style.backgroundColor = drawColor;
+    else if (pen) getColor(cell);
+}
+
+function getColor(cell) {
+    if (feather) {
+        let first = 'rgb(217, 217, 217)';
+        let second = 'rgb(179, 179, 179)';
+        let third = 'rgb(140, 140, 140)';
+        let fourth = 'rgb(89, 89, 89)';
+        let fifth = 'rgb(51, 51, 51)';
+        let sixth = 'rgb(26, 26, 26)';
+        let seventh = 'rgb(0, 0, 0)';
+        console.log(cell.style.backgroundColor);
+        let color = cell.style.backgroundColor;
+        switch (color) {
+            case fifth: 
+                break;
+            case fourth: 
+                cell.style.backgroundColor = fifth;
+                break;
+            case third:
+                cell.style.backgroundColor = fourth;
+                break;
+            case second:
+                cell.style.backgroundColor = third;
+                break;
+            case first:
+                cell.style.backgroundColor = second;
+                break;
+            default:
+                cell.style.backgroundColor = first;
+        }
+        // if (color == fifth) {
+        //     return;
+        // }
+        // else if (color == fourth) {
+        //     cell.style.backgroundColor = fifth;
+        // }
+        // else cell.style.backgroundColor = fourth;
+    }
+    else cell.style.backgroundColor = drawColor;
 }
 
 // Toolbar booleans
@@ -114,14 +154,18 @@ function resetInputs() {
 }
 
 function resizeGrid() {
-
+    newGrid(prompt('Input grid size'));
 }
 function setFeather() {
-
+    if (feather) feather = false;
+    else feather = true;
 }
 function setColor() {
 
 }
 function clearGrid() {
-
+    for (let cell of cells) {
+        if (eraser) cell.style.backgroundColor = drawColor;
+        else cell.style.backgroundColor = gridColor;
+    }
 }
