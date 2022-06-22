@@ -41,6 +41,11 @@ header {
 }
 .toolbar button:hover {
     cursor: pointer;
+    background-color: grey;
+}
+.selected {
+    color: white;
+    background-color: black;
 }
 .sketchpad {
     display: flex;

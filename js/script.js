@@ -1,9 +1,18 @@
-// Global selectors
-const sketchpad = document.querySelector('.sketchpad');
-const toolbar = document.querySelector('.toolbar');
+// Default behavior of the Etch-a-Sketch on start
+const cells = [];
+let drawColor = 'black';
+let gridColor = 'white';
+newGrid(16);
 
-function initialize(size) {
-    let cells = [];
+
+function newGrid(size) {
+    cells.length = 0;
+    const sketchpad = document.querySelector('.sketchpad');
+    sketchpad.innerHTML = "";
+    buildGrid(size);
+}
+// Can time complexity be reduced with CSS grid?
+function buildGrid(size) {
     for (let i = 0; i < size; i++) {
         let row = document.createElement('div');
         row.classList.add('row');
@@ -16,72 +25,81 @@ function initialize(size) {
             row.appendChild(col);
         }
     }
-    return cells;
 }
 
-// Default behavior of the Etch-a-Sketch
-let drawColor = 'black';
-let sketchBackgroundColor = 'white';
-let cells = initialize(16);
-console.log(cells);
-
-// Toolbar functions
+// Toolbar booleans
 let pencil = false;
 let pen = false;
+let resize = false;
 let feather = false;
+let palette = false;
 let eraser = false;
+let clear = false;
 
-function removeDrawType() {
-    if (pencil) {
-        for (let cell of cells) {
-            cell.removeEventListener('click', drawLogic);
-        }
-        pencil = false;
-    }
-    else if (pen) {
-        for (let cell of cells) {
-            cell.removeEventListener('mouseover', drawLogic);
-        }
-        pen = false;
-    }
-}
-const drawLogic = function (e) {
-    e.target.style.backgroundColor = drawColor;
-}
-function selectPencil() {
+// Toolbar buttons
+const pencilBtn = document.getElementById('pencil');
+const penBtn = document.getElementById('pen');
+const resizeBtn = document.getElementById('resize');
+const featherBtn = document.getElementById('feather');
+const paletteBtn = document.getElementById('palette');
+const eraserBtn = document.getElementById('eraser');
+const clearBtn = document.getElementById('clear');
+
+// Toolbar event listeners
+pencilBtn.addEventListener('click', setPencil);
+penBtn.addEventListener('click', setPen);
+resizeBtn.addEventListener('click', resizeGrid);
+featherBtn.addEventListener('click', setFeather);
+paletteBtn.addEventListener('click', setColor);
+eraserBtn.addEventListener('click', setEraser);
+clearBtn.addEventListener('click', clearGrid);
+
+function setPencil() {
     if (!pencil) {
-        removeDrawType();
-        for (let cell of cells) {
-            cell.addEventListener('click', drawLogic);
-        }
-        pencil = true;
-    } 
+        if (eraser) colorSwap();
+        resetInputs();
+        pencilBtn.classList.toggle('selected');
+    }
 }
-
-function selectPen() {
+function setPen() {
     if (!pen) {
-        removeDrawType();
-        for (let cell of cells) {
-            cell.addEventListener('mouseover', drawLogic);
-        }
+        if (eraser) colorSwap();
+        resetInputs();
+        penBtn.classList.toggle('selected');
         pen = true;
     }
 }
-
-
-// toolbar button event listeners
-let penButton = document.querySelector('.pen');
-penButton.addEventListener('click', function () {
-    if (!pen) {
-        removeDrawType();
-        selectPen();
+function setEraser() {
+    if (!eraser) {
+        colorSwap();
+        resetInputs();
+        eraserBtn.classList.toggle('selected');
+        eraser = true;
     }
-});
+}
+function colorSwap() {
+    let swap = drawColor;
+    drawColor = gridColor;
+    gridColor = swap;
+}
+function resetInputs() {
+    pencil = false;
+    pen = false;
+    eraser = false;
+    pencilBtn.classList.remove('selected');
+    penBtn.classList.remove('selected');
+    eraserBtn.classList.remove('selected');
+}
 
-let pencilButton = document.querySelector('.pencil');
-pencilButton.addEventListener('click', function () {
-    if (!pencil) {
-        removeDrawType();
-        selectPencil()
-    }
-})
+function resizeGrid() {
+
+}
+function setFeather() {
+
+}
+function setColor() {
+
+}
+function clearGrid() {
+
+}
